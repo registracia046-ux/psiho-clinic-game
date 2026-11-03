@@ -58,6 +58,20 @@ def main():
     keep = save_tag("автосохранение перед откатом к %s" % tag)
     # восстанавливаем код и ресурсы из тега, не трогая историю
     git("checkout", tag, "--", ".")
+    # список файлов берём из ДЕРЕВА автосохранения (HEAD), а не из индекса:
+    # после checkout индекс теряет сведения о файлах, которых нет в целевом теге
+    tracked = git("ls-tree", "-r", "--name-only", "HEAD").stdout.split()
+    in_tag = set(git("ls-tree", "-r", "--name-only", tag).stdout.split())
+    removed = 0
+    for f in tracked:
+        # инструмент отката не удаляем никогда — иначе откат станет невозможен
+        if f.startswith("versions/"):
+            continue
+        if f not in in_tag and os.path.exists(os.path.join(ROOT, f)):
+            os.remove(os.path.join(ROOT, f))
+            removed += 1
+    if removed:
+        print("удалено файлов, не было в версии: %d" % removed)
     # сам инструмент отката всегда остаётся рабочим
     git("checkout", "HEAD", "--", "versions")
     git("add", "-A")
