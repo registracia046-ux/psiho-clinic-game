@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Клиника · baseline v0.1</title>
+<style>
+html,body{margin:0;height:100%;background:#070A14;color:#E9F2FF;font-family:system-ui,sans-serif;overflow:hidden}
+#cv{display:block;width:100%;height:100%}
+#hud{position:fixed;top:14px;left:14px;font:12px ui-monospace,monospace;color:#7FD4E8;background:rgba(7,10,20,.8);
+  padding:10px 14px;border:1px solid rgba(159,196,232,.2);border-radius:10px;line-height:1.7}
+#hint{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);font:11px ui-monospace,monospace;
+  color:#68788C;letter-spacing:.1em;text-transform:uppercase}
+</style></head><body>
+<canvas id="cv"></canvas>
+<div id="hud">КЛИНИКА · BASELINE v0.1<br>комната: <span id="rn">коридор</span></div>
+<div id="hint">WASD / стрелки — идти · E — взаимодействовать</div>
+<script>
+var c=document.getElementById('cv'),x=c.getContext('2d');
+var ROOMS={"corridor":{"w":30,"h":10,"walls":[],"doors":[]}};
+var room='corridor',px=4,py=5,keys={};
+addEventListener('keydown',function(e){keys[e.key.toLowerCase()]=1;if(e.key.toLowerCase()==='e')interact();});
+addEventListener('keyup',function(e){keys[e.key.toLowerCase()]=0;});
+function fit(){c.width=innerWidth;c.height=innerHeight;}
+addEventListener('resize',fit);fit();
+function step(){var R=ROOMS[room],dx=0,dy=0;
+ if(keys['a']||keys['arrowleft'])dx=-1; if(keys['d']||keys['arrowright'])dx=1;
+ if(keys['w']||keys['arrowup'])dy=-1; if(keys['s']||keys['arrowdown'])dy=1;
+ var sp=0.14; px+=dx*sp; py+=dy*sp;
+ px=Math.max(0.6,Math.min(R.w-0.6,px)); py=Math.max(0.6,Math.min(R.h-0.6,py));
+ x.clearRect(0,0,c.width,c.height); x.fillStyle='#0B1220'; x.fillRect(0,0,c.width,c.height);
+ var s=Math.min(c.width/(R.w+4),c.height/(R.h+4)),ox=(c.width-R.w*s)/2,oy=(c.height-R.h*s)/2;
+ x.fillStyle='#16233d'; x.fillRect(ox,oy,R.w*s,R.h*s);
+ x.fillStyle='#7FD4E8'; x.beginPath(); x.arc(ox+px*s,oy+py*s,9,0,7); x.fill();
+ requestAnimationFrame(step);
+}
+function interact(){}
+document.getElementById('rn').textContent=room;
+step();
+</script></body></html>
