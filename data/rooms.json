@@ -172,7 +172,8 @@
           "bill": 800,
           "trigger": "Ключ от палаты — твой. Оплатишь смену. Не оплатишь — будешь спать в коридоре."
         }
-      ]
+      ],
+      "placeholder": false
     },
     {
       "id": "ward_ves",
@@ -256,7 +257,8 @@
           "y": 72.0,
           "h": 46
         }
-      ]
+      ],
+      "placeholder": false
     },
     {
       "id": "ward_ves_2",
@@ -321,7 +323,8 @@
           "side": "top"
         }
       ],
-      "items": []
+      "items": [],
+      "placeholder": false
     },
     {
       "id": "ward_dem",
@@ -394,7 +397,8 @@
           "bill": 600,
           "trigger": "Выпей всё. Сядь обратно. Руки на колени. Потом сдоишь — и снова за мной."
         }
-      ]
+      ],
+      "placeholder": false
     },
     {
       "id": "ward_sko",
@@ -467,7 +471,8 @@
           "bill": 700,
           "trigger": "Запиши всё, что я скажу. Дословно. И перечитай вслух — про то, сколько ты должен."
         }
-      ]
+      ],
+      "placeholder": false
     },
     {
       "id": "ward_amb",
@@ -560,7 +565,8 @@
           "name": "ДЫМКА",
           "trigger": "Дымка. Чем гуще — тем дальше отсюда."
         }
-      ]
+      ],
+      "placeholder": false
     },
     {
       "id": "ward_tie",
@@ -610,7 +616,8 @@
           "side": "bottom"
         }
       ],
-      "items": []
+      "items": [],
+      "placeholder": true
     },
     {
       "id": "ward_dur",
@@ -660,7 +667,8 @@
           "side": "top"
         }
       ],
-      "items": []
+      "items": [],
+      "placeholder": true
     },
     {
       "id": "ward_vec",
@@ -721,7 +729,8 @@
           "bill": 1900,
           "trigger": "Вектор — это направление, куда тебя тянет. Я показываю, и ты идёшь. Всегда."
         }
-      ]
+      ],
+      "placeholder": true
     },
     {
       "id": "char_per",
@@ -771,7 +780,8 @@
           "side": "bottom"
         }
       ],
-      "items": []
+      "items": [],
+      "placeholder": true
     },
     {
       "id": "char_bog",
@@ -844,7 +854,8 @@
           "rose": true,
           "trigger": "В зеркале ты — мой. И это не комплимент."
         }
-      ]
+      ],
+      "placeholder": false
     },
     {
       "id": "char_peli",
@@ -894,7 +905,8 @@
           "side": "top"
         }
       ],
-      "items": []
+      "items": [],
+      "placeholder": true
     },
     {
       "id": "char_poz",
@@ -944,7 +956,8 @@
           "side": "bottom"
         }
       ],
-      "items": []
+      "items": [],
+      "placeholder": true
     },
     {
       "id": "char_der",
@@ -994,7 +1007,8 @@
           "side": "bottom"
         }
       ],
-      "items": []
+      "items": [],
+      "placeholder": true
     },
     {
       "id": "char_kva",
@@ -1044,7 +1058,8 @@
           "side": "bottom"
         }
       ],
-      "items": []
+      "items": [],
+      "placeholder": true
     },
     {
       "id": "ward_ves_3",
@@ -1095,7 +1110,8 @@
           "side": "top"
         }
       ],
-      "items": []
+      "items": [],
+      "placeholder": false
     }
   ]
 }
