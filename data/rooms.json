@@ -618,7 +618,8 @@
         }
       ],
       "items": [],
-      "placeholder": true
+      "placeholder": true,
+      "bg": "assets/pan/room_sepia.jpg"
     },
     {
       "id": "ward_dur",
@@ -669,7 +670,8 @@
         }
       ],
       "items": [],
-      "placeholder": true
+      "placeholder": true,
+      "bg": "assets/pan/room_sepia.jpg"
     },
     {
       "id": "ward_vec",
@@ -731,7 +733,8 @@
           "trigger": "Вектор — это направление, куда тебя тянет. Я показываю, и ты идёшь. Всегда."
         }
       ],
-      "placeholder": true
+      "placeholder": true,
+      "bg": "assets/pan/room_steel.jpg"
     },
     {
       "id": "char_per",
@@ -781,8 +784,43 @@
           "side": "bottom"
         }
       ],
-      "items": [],
-      "placeholder": true
+      "items": [
+        {
+          "id": "per_s1",
+          "x": 6.5,
+          "y": 8.0,
+          "h": 13,
+          "sprite": "assets/items/obj_syringe.png",
+          "name": "ШПРИЦ",
+          "bill": 3000,
+          "rose": true,
+          "trigger": "Уколись сам. Я подожду. Ты ведь любишь."
+        },
+        {
+          "id": "per_s2",
+          "x": 8.8,
+          "y": 9.0,
+          "h": 10,
+          "sprite": "assets/items/obj_syringe.png",
+          "name": "ШПРИЦ",
+          "bill": 3000,
+          "rose": true,
+          "trigger": "Второй. Не стесняйся — тут каждый второй такой."
+        },
+        {
+          "id": "per_s3",
+          "x": 4.3,
+          "y": 9.2,
+          "h": 9,
+          "sprite": "assets/items/obj_syringe.png",
+          "name": "ШПРИЦ",
+          "bill": 3000,
+          "rose": true,
+          "trigger": "Третий, на всякий случай. Сколько закажешь."
+        }
+      ],
+      "placeholder": false,
+      "bg": "assets/pan/room_steel.jpg"
     },
     {
       "id": "char_bog",
@@ -906,8 +944,42 @@
           "side": "top"
         }
       ],
-      "items": [],
-      "placeholder": true
+      "items": [
+        {
+          "id": "peli_diap",
+          "x": 5.6,
+          "y": 8.6,
+          "h": 13,
+          "sprite": "assets/items/pelyanka.png",
+          "name": "ПЕЛЁНКА",
+          "bill": 2200,
+          "trigger": "Пелёнка. Заверну тебя — и ты перестанешь дёргаться."
+        },
+        {
+          "id": "peli_mask",
+          "x": 9.4,
+          "y": 8.4,
+          "h": 8,
+          "sprite": "assets/items/mask.png",
+          "name": "МАСКА",
+          "bill": 1400,
+          "rose": true,
+          "trigger": "Маска доктора. Дыши под ней, не то приду к койке."
+        },
+        {
+          "id": "peli_belt",
+          "x": 12.2,
+          "y": 9.4,
+          "h": 10,
+          "sprite": "assets/items/obj_remen.png",
+          "name": "РЕМНИ",
+          "bill": 1800,
+          "rose": true,
+          "trigger": "Ремни. Только не стягивай так сильно."
+        }
+      ],
+      "placeholder": false,
+      "bg": "assets/pan/room_mint.jpg"
     },
     {
       "id": "char_poz",
@@ -958,7 +1030,8 @@
         }
       ],
       "items": [],
-      "placeholder": true
+      "placeholder": true,
+      "bg": "assets/pan/room_sepia.jpg"
     },
     {
       "id": "char_der",
@@ -1009,7 +1082,8 @@
         }
       ],
       "items": [],
-      "placeholder": true
+      "placeholder": true,
+      "bg": "assets/pan/room_sepia.jpg"
     },
     {
       "id": "char_kva",
@@ -1060,7 +1134,8 @@
         }
       ],
       "items": [],
-      "placeholder": true
+      "placeholder": true,
+      "bg": "assets/pan/room_petrol.jpg"
     },
     {
       "id": "ward_ves_3",
