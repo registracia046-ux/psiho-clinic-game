@@ -283,6 +283,9 @@ function draw(){
   ctx.fillStyle='#EAF7FF'; ctx.beginPath(); ctx.arc(pxp,pyp,6.5,0,7); ctx.fill();
   ctx.strokeStyle=P.glow; ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(pxp,pyp,10,0,7); ctx.stroke();
 
+  /* отладочный хук: позиция игрока (для тестов и отладки) */
+  window.__p={x:px,y:py,room:roomId};
+
   /* счёт */
   d.getElementById('bill').textContent=bill.toLocaleString('ru-RU')+' ₽';
   d.getElementById('cnt').textContent='найдено '+Object.keys(found).length+' из '+totalItems;
