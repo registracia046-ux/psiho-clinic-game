@@ -236,7 +236,27 @@
           "side": "top"
         }
       ],
-      "items": []
+      "items": [
+        {
+          "id": "potion_ves",
+          "x": 30.0,
+          "y": 62.0,
+          "h": 15,
+          "sprite": "assets/items/obj_pillbox.png",
+          "name": "ЗЕЛЬЕ",
+          "bill": 1200,
+          "trigger": "Выпей. От зелья не тошнит, а от правды — ещё как."
+        }
+      ],
+      "bg": "assets/pan/ves_room.jpg",
+      "decor": [
+        {
+          "src": "assets/items/broom.png",
+          "x": 13.0,
+          "y": 72.0,
+          "h": 46
+        }
+      ]
     },
     {
       "id": "ward_ves_2",
@@ -250,7 +270,13 @@
         [
           0.0,
           0,
-          11.200000000000001,
+          5.8,
+          1.1
+        ],
+        [
+          8.2,
+          0,
+          3.0000000000000018,
           1.1
         ],
         [
@@ -284,6 +310,14 @@
           "y": 0.5,
           "to": "ward_ves",
           "label": "назад",
+          "side": "top"
+        },
+        {
+          "x": 7.0,
+          "y": 0.5,
+          "to": "ward_ves_3",
+          "label": "ещё глубже",
+          "nested": true,
           "side": "top"
         }
       ],
@@ -483,7 +517,50 @@
           "side": "top"
         }
       ],
-      "items": []
+      "items": [
+        {
+          "id": "amp_amb",
+          "x": 31.0,
+          "y": 52.0,
+          "h": 20,
+          "sprite": "assets/items/cap_lamp.png",
+          "name": "НОЧНИК",
+          "bill": 900,
+          "trigger": "Свет не выключается. Пока горит — ты в палате."
+        },
+        {
+          "id": "pill_amb",
+          "x": 36.0,
+          "y": 50.0,
+          "h": 11,
+          "sprite": "assets/items/cap_capsule.png",
+          "name": "КАПСУЛА",
+          "bill": 700,
+          "trigger": "Спи. Капсула снотворного — и сон приходит с обочины."
+        },
+        {
+          "id": "pillow_amb",
+          "x": 39.5,
+          "y": 48.0,
+          "h": 12,
+          "sprite": "assets/items/cap_pillow.png",
+          "name": "ПОДУШКА",
+          "bill": 500,
+          "trigger": "Под одеялом ты спишь. Без одеяла — тоже, только не так хорошо."
+        }
+      ],
+      "bg": "assets/pan/amb_room.jpg",
+      "anim": [
+        {
+          "src": "assets/items/haze.gif",
+          "x": 56.0,
+          "y": 32.0,
+          "h": 44,
+          "alpha": 0.5,
+          "name": "ДЫМКА",
+          "trigger": "Дымка. Чем гуще — тем дальше отсюда."
+        }
+      ]
     },
     {
       "id": "ward_tie",
@@ -633,7 +710,18 @@
           "side": "top"
         }
       ],
-      "items": []
+      "items": [
+        {
+          "id": "vec_compass",
+          "x": 11.0,
+          "y": 7.5,
+          "h": 16,
+          "sprite": "assets/items/vec_compass.png",
+          "name": "ВЕКТОР",
+          "bill": 1900,
+          "trigger": "Вектор — это направление, куда тебя тянет. Я показываю, и ты идёшь. Всегда."
+        }
+      ]
     },
     {
       "id": "char_per",
@@ -954,6 +1042,57 @@
           "to": "corridor",
           "label": "в коридор",
           "side": "bottom"
+        }
+      ],
+      "items": []
+    },
+    {
+      "id": "ward_ves_3",
+      "name": "ПАЛАТА ВЕДЬМЫ · ГЛУБЖЕ ГЛУБЖЕ",
+      "kind": "theme-nested",
+      "pal": "lavender",
+      "parent": "ward_ves_2",
+      "w": 13,
+      "h": 9,
+      "walls": [
+        [
+          0.0,
+          0,
+          9.200000000000001,
+          1.1
+        ],
+        [
+          11.6,
+          0,
+          1.4000000000000004,
+          1.1
+        ],
+        [
+          0.0,
+          7.9,
+          13.0,
+          1.1
+        ],
+        [
+          0,
+          0.0,
+          1.1,
+          9.0
+        ],
+        [
+          11.9,
+          0.0,
+          1.1,
+          9.0
+        ]
+      ],
+      "doors": [
+        {
+          "x": 10.4,
+          "y": 0.5,
+          "to": "ward_ves_2",
+          "label": "назад",
+          "side": "top"
         }
       ],
       "items": []

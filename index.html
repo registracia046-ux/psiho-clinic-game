@@ -14,6 +14,9 @@
 html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);
   font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
 #cv{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}
+#domlayer{position:fixed;left:0;top:0;pointer-events:none;overflow:hidden;z-index:2}
+#domlayer img{position:absolute;display:block;pointer-events:none}
+#domlayer img.anim{pointer-events:auto;cursor:pointer}
 .hud{position:fixed;padding:12px 16px;border:1px solid rgba(159,196,232,.18);border-radius:12px;
   background:rgba(7,10,20,.82);backdrop-filter:blur(8px);font-family:var(--mono);line-height:1.75}
 #top{top:14px;left:14px;min-width:200px}
@@ -54,6 +57,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--
 </head>
 <body>
 <canvas id="cv"></canvas>
+<div id="domlayer"></div>
 
 <div class="hud" id="top">
   <div class="nm" id="rname">КОРИДОР</div>
@@ -75,10 +79,10 @@ html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--
 (function(){
 "use strict";
 var d=document, w=window;
-var cv=d.getElementById('cv'), ctx=cv.getContext('2d');
+var cv=d.getElementById('cv'), ctx=cv.getContext('2d'), domL=d.getElementById('domlayer');
 var DATA=null, ROOM=null, PAL={};
 var roomId='corridor', px=0, py=0, keys={}, mouse={x:0,y:0,down:false};
-var bill=0, found={}, totalItems=0, lastDir=0, dirChanges=0, trapShift=0, msgT=null;
+var bill=0, found={}, totalItems=0, lastDir=0, dirChanges=0, trapShift=0, trapMirror=false, msgT=null;
 var imgs={}, spr={};
 var saved=JSON.parse(localStorage.getItem('clinic_state')||'{}');
 if(saved.bill) bill=saved.bill;
@@ -93,7 +97,11 @@ fetch('data/rooms.json').then(function(r){return r.json();}).then(function(j){
   j.rooms.forEach(function(r){ totalItems += (r.items||[]).length; });
   /* подгружаем фоны и спрайты */
   var jobs=[];
-  j.rooms.forEach(function(r){ if(r.bg) jobs.push(load(r.bg,function(im){imgs[r.bg]=im;})); });
+  j.rooms.forEach(function(r){
+    if(r.bg) jobs.push(load(r.bg,function(im){imgs[r.bg]=im;}));
+    (r.decor||[]).forEach(function(dc){ jobs.push(load(dc.src,function(im){spr[dc.src]=im;})); });
+    (r.anim||[]).forEach(function(dc){ jobs.push(load(dc.src,function(im){spr[dc.src]=im;})); });
+  });
   Object.keys(j.rooms).forEach(function(k){
     (j.rooms[k].items||[]).forEach(function(it){ if(it.sprite) jobs.push(load(it.sprite,function(im){spr[it.sprite]=im;})); });
   });
@@ -140,6 +148,16 @@ function nearDoor(){
   });
   return bd<2.2?{d:best,dist:bd}:null;
 }
+function nearAnim(){
+  /* у анимаций координаты в ПРОЦЕНТАХ комнаты, у игрока — в КЛЕТКАХ */
+  var best=null,bd=1e9;
+  (ROOM.anim||[]).forEach(function(dc){
+    var ax=dc.x/100*ROOM.w, ay=dc.y/100*ROOM.h;
+    var dist=Math.hypot(ax-px,ay-py);
+    if(dist<bd){bd=dist;best=dc;}
+  });
+  return bd<3.0?{dc:best,dist:bd}:null;
+}
 function nearItem(){
   var best=null,bd=1e9;
   (ROOM.items||[]).forEach(function(it){
@@ -150,6 +168,28 @@ function nearItem(){
 }
 
 /* ---------- переходы ---------- */
+function buildSceneElements(){
+  /* декор и анимации — настоящие DOM-элементы: только так гиф анимируется
+     (Chrome в canvas рисует лишь первый кадр) */
+  domL.innerHTML='';
+  (ROOM.decor||[]).forEach(function(dc){
+    var im=d.createElement('img'); im.src=dc.src; im.alt='';
+    im.style.left=dc.x+'%'; im.style.top=dc.y+'%';
+    im.style.height=dc.h+'%';
+    if(dc.w){ im.style.height='auto'; im.style.width=dc.w+'%'; }
+    domL.appendChild(im);
+  });
+  (ROOM.anim||[]).forEach(function(dc){
+    var im=d.createElement('img'); im.src=dc.src; im.alt=dc.name||'';
+    im.className='anim';
+    im.style.left=dc.x+'%'; im.style.top=dc.y+'%';
+    im.style.height=dc.h+'%';
+    im.style.opacity=(dc.alpha===undefined?0.92:dc.alpha);
+    im.addEventListener('click',function(e){ e.stopPropagation();
+      var na=nearAnim(); if(na && na.dc===dc) say(dc.trigger,false,dc.name); });
+    domL.appendChild(im);
+  });
+}
 function go(id){
   var r=roomById(id); if(!r) return;
   d.getElementById('fade').classList.add('on');
@@ -161,15 +201,18 @@ function go(id){
       var back=(r.doors||[]).filter(function(x){return x.to===lastRoom;})[0];
       if(back){ px=back.x; py=back.y; } else { px=ROOM.w/2; py=ROOM.h/2; }
     }
-    d.getElementById('rname').textContent=ROOM.name;
+    d.getElementById('rname').textContent=ROOM.name+(ROOM.placeholder?' · заготовка':'');
     d.getElementById('rpal').textContent=(PAL[ROOM.pal]||{}).name||ROOM.pal;
     d.getElementById('fade').classList.remove('on');
+    buildSceneElements();
     buildMap();
   },460);
 }
 var lastRoom='corridor';
 
 function interact(){
+  var na=nearAnim();
+  if(na){ if(!na.dc._hit){ na.dc._hit=1; say(na.dc.trigger,na.dc.rose,na.dc.name); } return; }
   var ni=nearItem();
   if(ni){ trigger(ni.i); return; }
   var nd=nearDoor();
@@ -203,19 +246,23 @@ function buildMap(){
 /* ---------- ловушка коридора ---------- */
 function trapLogic(){
   if(ROOM.kind!=='trap') return;
-  var dir=lastDir;
-  if(dir&&dir!==lastDir){ dirChanges++; if(dirChanges>=3){ dirChanges=0; shiftTrap(); } }
+  if(dirChanges>=3){ dirChanges=0; shiftTrap(); }
 }
 function shiftTrap(){
-  /* коридор незаметно переставляет двери — выбраться всё труднее */
-  trapShift=(trapShift+1)%3;
-  var doors=(ROOM.doors||[]).slice();
-  if(doors.length>2){
-    var d0=doors.shift(); doors.push(d0);
-    doors.forEach(function(dr,i){ dr.x=ROOM.doors[i%ROOM.doors.length].x; dr.y=ROOM.doors[i%ROOM.doors.length].y; });
-    ROOM.doors=doors;
-  }
-  say('Коридор стал чуть другим. Ты же помнил, куда шёл?');
+  /* Коридор-ловушка: двери меняются местами ВНУТРИ одной стороны, фон ползёт и
+     переворачивается. Куда ведёт каждая дверь — не меняется: выйти можно всегда,
+     выбраться «нельзя» только психологически — ты теряешь ориентацию. */
+  var sides={};
+  (ROOM.doors||[]).forEach(function(dr){ (sides[dr.side]=sides[dr.side]||[]).push(dr); });
+  Object.keys(sides).forEach(function(sd){
+    var arr=sides[sd]; if(arr.length<2) return;
+    var sh=arr.slice();
+    for(var i=sh.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=sh[i]; sh[i]=sh[j]; sh[j]=t; }
+    sh.forEach(function(dr,i){ dr.x=arr[i].x; dr.y=arr[i].y; });
+  });
+  trapShift=(trapShift+1)%4;
+  trapMirror=!trapMirror;
+  say('Коридор изменился. Ты помнил, куда шёл?');
 }
 
 /* ---------- отрисовка ---------- */
@@ -229,9 +276,11 @@ function draw(){
     var im=imgs[ROOM.bg], iw=im.width, ih=im.height;
     var sc=Math.max((ROOM.w*g.s)/iw,(ROOM.h*g.s)/ih);
     var dw=iw*sc, dh=ih*sc;
-    var dx=g.ox+(ROOM.w*g.s-dw)/2 + (trapShift?trapShift*18:0), dy=g.oy+(ROOM.h*g.s-dh)/2;
+    var dx=g.ox+(ROOM.w*g.s-dw)/2 + (trapShift?trapShift*26:0), dy=g.oy+(ROOM.h*g.s-dh)/2;
     ctx.save(); ctx.globalAlpha=0.85;
-    ctx.drawImage(im,dx,dy,dw,dh); ctx.restore();
+    if(trapMirror){ ctx.translate(g.ox+ROOM.w*g.s, g.oy); ctx.scale(-1,1); ctx.drawImage(im,dx-g.ox-ROOM.w*g.s,dy,dw,dh); }
+    else ctx.drawImage(im,dx,dy,dw,dh);
+    ctx.restore();
     /* тонировка палитрой комнаты */
     ctx.save(); ctx.globalCompositeOperation='multiply';
     ctx.fillStyle=P.tint; ctx.globalAlpha=0.55;
@@ -283,6 +332,12 @@ function draw(){
   ctx.fillStyle='#EAF7FF'; ctx.beginPath(); ctx.arc(pxp,pyp,6.5,0,7); ctx.fill();
   ctx.strokeStyle=P.glow; ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(pxp,pyp,10,0,7); ctx.stroke();
 
+  /* DOM-слой (декор, гиф) выравниваем по прямоугольнику комнаты */
+  if(domL){
+    domL.style.left=g.ox+'px'; domL.style.top=g.oy+'px';
+    domL.style.width=(ROOM.w*g.s)+'px'; domL.style.height=(ROOM.h*g.s)+'px';
+  }
+
   /* отладочный хук: позиция игрока (для тестов и отладки) */
   window.__p={x:px,y:py,room:roomId};
 
@@ -306,7 +361,7 @@ function step(){
     if(!hitWall(nx,py)) px=nx;
     if(!hitWall(px,ny)) py=ny;
     var nd=dx?(dx>0?'r':'l'):(dy>0?'d':'u');
-    if(nd!==lastDir){ lastDir=nd; trapLogic(); }
+    if(nd!==lastDir){ if(lastDir) dirChanges++; lastDir=nd; trapLogic(); }
   }
   requestAnimationFrame(step);
 }
@@ -316,7 +371,7 @@ function start(){
   px=ROOM.w/2; py=ROOM.h/2;
   d.getElementById('rname').textContent=ROOM.name;
   d.getElementById('rpal').textContent=(PAL[ROOM.pal]||{}).name||ROOM.pal;
-  buildMap(); step(); draw();
+  buildSceneElements(); buildMap(); step(); draw();
 }
 })();
 </script>

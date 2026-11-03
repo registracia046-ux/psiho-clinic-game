@@ -65,7 +65,8 @@ SIDE = {
     "corridor": {"ward_ves": "top", "ward_dem": "top", "ward_sko": "bottom",
                  "ward_tie": "bottom", "char_bog": "right"},
     "ward_ves": {"corridor": "bottom", "ward_ves_2": "top"},
-    "ward_ves_2": {"ward_ves": "top"},
+    "ward_ves_2": {"ward_ves": "top", "ward_ves_3": "top"},
+    "ward_ves_3": {"ward_ves_2": "top"},
     "ward_dem": {"corridor": "top"},
     "ward_sko": {"corridor": "bottom"},
     "ward_amb": {"corridor": "top"},
@@ -126,7 +127,8 @@ for room in d["rooms"]:
         else:
             gaps.append((side, dr["y"]))
     room["walls"] = segs(room["w"], room["h"], gaps)
-    room["items"] = ITEMS.get(rid, [])
+    if rid not in ITEMS:
+        room["items"] = room.get("items", [])
 
 d["version"] = "0.2.1"
 io.open(P, "w", encoding="utf-8").write(json.dumps(d, ensure_ascii=False, indent=2))
