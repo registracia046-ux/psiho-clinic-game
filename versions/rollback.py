@@ -21,6 +21,10 @@ def git(*args, check=True):
 def save_tag(note):
     stamp = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     tag = "save-%s" % stamp
+    # имя может совпасть с уже существующим тегом (откат туда-обратно за минуту)
+    n = 2
+    while git("rev-parse", "-q", "--verify", "refs/tags/" + tag, check=False).returncode == 0:
+        tag = "save-%s-%d" % (stamp, n); n += 1
     git("add", "-A")
     dirty = git("status", "--porcelain", check=False).stdout.strip()
     if dirty:
