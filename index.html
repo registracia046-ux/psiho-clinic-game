@@ -14,6 +14,9 @@
 html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);
   font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif}
 #cv{display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}
+#domlayer{position:fixed;left:0;top:0;pointer-events:none;overflow:hidden;z-index:2}
+#domlayer img{position:absolute;display:block;pointer-events:none}
+#domlayer img.anim{pointer-events:auto;cursor:pointer}
 .hud{position:fixed;padding:12px 16px;border:1px solid rgba(159,196,232,.18);border-radius:12px;
   background:rgba(7,10,20,.82);backdrop-filter:blur(8px);font-family:var(--mono);line-height:1.75}
 #top{top:14px;left:14px;min-width:200px}
@@ -54,6 +57,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--
 </head>
 <body>
 <canvas id="cv"></canvas>
+<div id="domlayer"></div>
 
 <div class="hud" id="top">
   <div class="nm" id="rname">КОРИДОР</div>
@@ -75,7 +79,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--
 (function(){
 "use strict";
 var d=document, w=window;
-var cv=d.getElementById('cv'), ctx=cv.getContext('2d');
+var cv=d.getElementById('cv'), ctx=cv.getContext('2d'), domL=d.getElementById('domlayer');
 var DATA=null, ROOM=null, PAL={};
 var roomId='corridor', px=0, py=0, keys={}, mouse={x:0,y:0,down:false};
 var bill=0, found={}, totalItems=0, lastDir=0, dirChanges=0, trapShift=0, trapMirror=false, msgT=null;
@@ -145,12 +149,14 @@ function nearDoor(){
   return bd<2.2?{d:best,dist:bd}:null;
 }
 function nearAnim(){
+  /* у анимаций координаты в ПРОЦЕНТАХ комнаты, у игрока — в КЛЕТКАХ */
   var best=null,bd=1e9;
   (ROOM.anim||[]).forEach(function(dc){
-    var dist=Math.hypot(dc.x-px,dc.y-py);
+    var ax=dc.x/100*ROOM.w, ay=dc.y/100*ROOM.h;
+    var dist=Math.hypot(ax-px,ay-py);
     if(dist<bd){bd=dist;best=dc;}
   });
-  return bd<2.0?{dc:best,dist:bd}:null;
+  return bd<3.0?{dc:best,dist:bd}:null;
 }
 function nearItem(){
   var best=null,bd=1e9;
@@ -162,6 +168,28 @@ function nearItem(){
 }
 
 /* ---------- переходы ---------- */
+function buildSceneElements(){
+  /* декор и анимации — настоящие DOM-элементы: только так гиф анимируется
+     (Chrome в canvas рисует лишь первый кадр) */
+  domL.innerHTML='';
+  (ROOM.decor||[]).forEach(function(dc){
+    var im=d.createElement('img'); im.src=dc.src; im.alt='';
+    im.style.left=dc.x+'%'; im.style.top=dc.y+'%';
+    im.style.height=dc.h+'%';
+    if(dc.w){ im.style.height='auto'; im.style.width=dc.w+'%'; }
+    domL.appendChild(im);
+  });
+  (ROOM.anim||[]).forEach(function(dc){
+    var im=d.createElement('img'); im.src=dc.src; im.alt=dc.name||'';
+    im.className='anim';
+    im.style.left=dc.x+'%'; im.style.top=dc.y+'%';
+    im.style.height=dc.h+'%';
+    im.style.opacity=(dc.alpha===undefined?0.92:dc.alpha);
+    im.addEventListener('click',function(e){ e.stopPropagation();
+      var na=nearAnim(); if(na && na.dc===dc) say(dc.trigger,false,dc.name); });
+    domL.appendChild(im);
+  });
+}
 function go(id){
   var r=roomById(id); if(!r) return;
   d.getElementById('fade').classList.add('on');
@@ -176,6 +204,7 @@ function go(id){
     d.getElementById('rname').textContent=ROOM.name+(ROOM.placeholder?' · заготовка':'');
     d.getElementById('rpal').textContent=(PAL[ROOM.pal]||{}).name||ROOM.pal;
     d.getElementById('fade').classList.remove('on');
+    buildSceneElements();
     buildMap();
   },460);
 }
@@ -217,8 +246,7 @@ function buildMap(){
 /* ---------- ловушка коридора ---------- */
 function trapLogic(){
   if(ROOM.kind!=='trap') return;
-  var dir=lastDir;
-  if(dir&&dir!==lastDir){ dirChanges++; if(dirChanges>=3){ dirChanges=0; shiftTrap(); } }
+  if(dirChanges>=3){ dirChanges=0; shiftTrap(); }
 }
 function shiftTrap(){
   /* Коридор-ловушка: двери меняются местами ВНУТРИ одной стороны, фон ползёт и
@@ -284,24 +312,6 @@ function draw(){
     ctx.fillText(dr.label||'',x,y-21);
   });
 
-  /* декор: статичные элементы комнаты (метла, дымка, аппаратура) */
-  (ROOM.decor||[]).forEach(function(dc){
-    var im=spr[dc.src]; if(!im) return;
-    var hh=(dc.h||20)*g.s/100*10, ww=(dc.w||null);
-    var sc=hh/im.height, w2=im.width*sc;
-    if(ww) { sc=ww/im.width; w2=ww; hh=im.height*sc; }
-    ctx.drawImage(im, g.ox+dc.x*g.s-w2/2, g.oy+dc.y*g.s-hh, w2, hh);
-  });
-
-  /* анимации: гиф/стикеры, по клику — реплика */
-  (ROOM.anim||[]).forEach(function(dc){
-    var im=spr[dc.src]; if(!im) return;
-    var hh=(dc.h||20)*g.s/100*10, sc=hh/im.height, w2=im.width*sc;
-    ctx.save(); ctx.globalAlpha=dc.alpha===undefined?0.92:dc.alpha;
-    ctx.drawImage(im, g.ox+dc.x*g.s-w2/2, g.oy+dc.y*g.s-hh, w2, hh); ctx.restore();
-    if(dc.trigger) dc._el=dc;
-  });
-
   /* предметы */
   (ROOM.items||[]).forEach(function(it){
     var x=g.ox+it.x*g.s, y=g.oy+it.y*g.s, h=(it.h||14)*g.s/100*10;
@@ -321,6 +331,12 @@ function draw(){
   ctx.fillStyle=halo; ctx.beginPath(); ctx.arc(pxp,pyp,26,0,7); ctx.fill();
   ctx.fillStyle='#EAF7FF'; ctx.beginPath(); ctx.arc(pxp,pyp,6.5,0,7); ctx.fill();
   ctx.strokeStyle=P.glow; ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(pxp,pyp,10,0,7); ctx.stroke();
+
+  /* DOM-слой (декор, гиф) выравниваем по прямоугольнику комнаты */
+  if(domL){
+    domL.style.left=g.ox+'px'; domL.style.top=g.oy+'px';
+    domL.style.width=(ROOM.w*g.s)+'px'; domL.style.height=(ROOM.h*g.s)+'px';
+  }
 
   /* отладочный хук: позиция игрока (для тестов и отладки) */
   window.__p={x:px,y:py,room:roomId};
@@ -345,7 +361,7 @@ function step(){
     if(!hitWall(nx,py)) px=nx;
     if(!hitWall(px,ny)) py=ny;
     var nd=dx?(dx>0?'r':'l'):(dy>0?'d':'u');
-    if(nd!==lastDir){ lastDir=nd; trapLogic(); }
+    if(nd!==lastDir){ if(lastDir) dirChanges++; lastDir=nd; trapLogic(); }
   }
   requestAnimationFrame(step);
 }
@@ -355,7 +371,7 @@ function start(){
   px=ROOM.w/2; py=ROOM.h/2;
   d.getElementById('rname').textContent=ROOM.name;
   d.getElementById('rpal').textContent=(PAL[ROOM.pal]||{}).name||ROOM.pal;
-  buildMap(); step(); draw();
+  buildSceneElements(); buildMap(); step(); draw();
 }
 })();
 </script>

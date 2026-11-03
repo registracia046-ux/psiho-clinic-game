@@ -710,7 +710,18 @@
           "side": "top"
         }
       ],
-      "items": []
+      "items": [
+        {
+          "id": "vec_compass",
+          "x": 11.0,
+          "y": 7.5,
+          "h": 16,
+          "sprite": "assets/items/vec_compass.png",
+          "name": "ВЕКТОР",
+          "bill": 1900,
+          "trigger": "Вектор — это направление, куда тебя тянет. Я показываю, и ты идёшь. Всегда."
+        }
+      ]
     },
     {
       "id": "char_per",
