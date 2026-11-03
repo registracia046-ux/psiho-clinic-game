@@ -58,6 +58,16 @@ def main():
     keep = save_tag("автосохранение перед откатом к %s" % tag)
     # восстанавливаем код и ресурсы из тега, не трогая историю
     git("checkout", tag, "--", ".")
+    # файлы, которых НЕТ в целевом теге, удаляем — иначе откат неполный
+    tracked = git("ls-files").stdout.split()
+    in_tag = set(git("ls-tree", "-r", "--name-only", tag).stdout.split())
+    removed = 0
+    for f in tracked:
+        if f not in in_tag and os.path.exists(os.path.join(ROOT, f)):
+            os.remove(os.path.join(ROOT, f))
+            removed += 1
+    if removed:
+        print("удалено файлов, не было в версии: %d" % removed)
     git("add", "-A")
     git("commit", "-q", "-m", "откат к версии %s" % tag)
     print("откатились к: %s" % tag)
