@@ -338,7 +338,13 @@
         [
           0.0,
           0,
-          18.2,
+          6.8,
+          1.1
+        ],
+        [
+          9.2,
+          0,
+          9.0,
           1.1
         ],
         [
@@ -373,29 +379,59 @@
           "to": "corridor",
           "label": "в коридор",
           "side": "top"
+        },
+        {
+          "x": 8.0,
+          "y": 0.5,
+          "to": "ward_dem_n",
+          "label": "глубже",
+          "nested": true,
+          "side": "top"
         }
       ],
       "items": [
         {
-          "id": "pill_d",
-          "x": 11.0,
-          "y": 8.4,
-          "h": 14,
-          "sprite": "assets/items/obj_skopolamin.png",
-          "name": "СКОПОЛАМИН",
-          "bill": 5000,
+          "id": "dem_f1",
+          "x": 9.4,
+          "y": 9.2,
+          "h": 11,
+          "sprite": "assets/items/obj_dimedrol.png",
+          "name": "ДЕМИДРОЛ",
+          "bill": 4000,
           "rose": true,
-          "trigger": "Сдой. Тихо, никому. И не спрашивай, зачем."
+          "trigger": "Демидрол. Через двадцать минут ты перестанешь считать свои деньги."
         },
         {
-          "id": "stakan_d",
-          "x": 18.0,
-          "y": 8.8,
-          "h": 16,
-          "sprite": "assets/items/obj_stakan.png",
-          "name": "ВОДА",
-          "bill": 600,
-          "trigger": "Выпей всё. Сядь обратно. Руки на колени. Потом сдоишь — и снова за мной."
+          "id": "dem_f2",
+          "x": 11.8,
+          "y": 9.6,
+          "h": 9,
+          "sprite": "assets/items/obj_dimedrol.png",
+          "name": "ДЕМИДРОЛ",
+          "bill": 4000,
+          "rose": true,
+          "trigger": "Второй флакон. Один — для тебя, второй — на потом."
+        },
+        {
+          "id": "dem_t",
+          "x": 7.0,
+          "y": 8.6,
+          "h": 10,
+          "sprite": "assets/items/obj_pillbox.png",
+          "name": "ТАБЛЕТКИ",
+          "bill": 450,
+          "trigger": "Памятка. Пока не уснёшь — читай, сколько ты должен."
+        },
+        {
+          "id": "dem_s",
+          "x": 14.0,
+          "y": 9.4,
+          "h": 12,
+          "sprite": "assets/items/obj_syringe.png",
+          "name": "ШПРИЦ",
+          "bill": 3000,
+          "rose": true,
+          "trigger": "Уколись. Сам. Я подожду."
         }
       ],
       "placeholder": false
@@ -412,7 +448,13 @@
         [
           0.0,
           0,
-          24.0,
+          6.8,
+          1.1
+        ],
+        [
+          9.2,
+          0,
+          14.8,
           1.1
         ],
         [
@@ -447,29 +489,49 @@
           "to": "corridor",
           "label": "в коридор",
           "side": "bottom"
+        },
+        {
+          "x": 8.0,
+          "y": 0.5,
+          "to": "ward_sko_n",
+          "label": "глубже",
+          "nested": true,
+          "side": "top"
         }
       ],
       "items": [
         {
-          "id": "syr_s",
-          "x": 10.0,
-          "y": 8.0,
-          "h": 18,
-          "sprite": "assets/items/obj_syringe.png",
-          "name": "ШПРИЦ",
-          "bill": 3000,
+          "id": "sko_a1",
+          "x": 9.0,
+          "y": 9.4,
+          "h": 9,
+          "sprite": "assets/items/obj_skopolamin.png",
+          "name": "СКОПОЛАМИН",
+          "bill": 5000,
           "rose": true,
-          "trigger": "Уколись. Сам. Я подожду."
+          "trigger": "Капни себе в глаза. Дальше ты смотришь только на меня."
         },
         {
-          "id": "tetrad_s",
-          "x": 17.5,
-          "y": 8.6,
-          "h": 15,
-          "sprite": "assets/items/obj_tetrad.png",
-          "name": "ИСТОРИЯ БОЛЕЗНИ",
-          "bill": 700,
-          "trigger": "Запиши всё, что я скажу. Дословно. И перечитай вслух — про то, сколько ты должен."
+          "id": "sko_a2",
+          "x": 11.2,
+          "y": 9.8,
+          "h": 7,
+          "sprite": "assets/items/obj_skopolamin.png",
+          "name": "СКОПОЛАМИН",
+          "bill": 5000,
+          "rose": true,
+          "trigger": "Вторая ампула. На всякий случай: вдруг первую разольёшь."
+        },
+        {
+          "id": "sko_b1",
+          "x": 6.2,
+          "y": 8.8,
+          "h": 11,
+          "sprite": "assets/items/obj_syringe.png",
+          "name": "ШПРИЦ СКОПОЛАМИНА",
+          "bill": 3000,
+          "rose": true,
+          "trigger": "Уколется сам. Я подожду. Ты ведь любишь."
         }
       ],
       "placeholder": false
@@ -485,7 +547,13 @@
         [
           0.0,
           0,
-          15.2,
+          6.8,
+          1.1
+        ],
+        [
+          9.2,
+          0,
+          6.0,
           1.1
         ],
         [
@@ -519,6 +587,14 @@
           "y": 0.5,
           "to": "corridor",
           "label": "в коридор",
+          "side": "top"
+        },
+        {
+          "x": 8.0,
+          "y": 0.5,
+          "to": "ward_amb_n",
+          "label": "глубже",
+          "nested": true,
           "side": "top"
         }
       ],
@@ -580,7 +656,13 @@
         [
           0.0,
           0,
-          20.0,
+          6.8,
+          1.1
+        ],
+        [
+          9.2,
+          0,
+          10.8,
           1.1
         ],
         [
@@ -615,6 +697,14 @@
           "to": "corridor",
           "label": "в коридор",
           "side": "bottom"
+        },
+        {
+          "x": 8.0,
+          "y": 0.5,
+          "to": "ward_tie_n",
+          "label": "глубже",
+          "nested": true,
+          "side": "top"
         }
       ],
       "items": [],
@@ -632,7 +722,13 @@
         [
           0.0,
           0,
-          15.2,
+          6.8,
+          1.1
+        ],
+        [
+          9.2,
+          0,
+          6.0,
           1.1
         ],
         [
@@ -667,10 +763,49 @@
           "to": "corridor",
           "label": "в коридор",
           "side": "top"
+        },
+        {
+          "x": 8.0,
+          "y": 0.5,
+          "to": "ward_dur_n",
+          "label": "глубже",
+          "nested": true,
+          "side": "top"
         }
       ],
-      "items": [],
-      "placeholder": true,
+      "items": [
+        {
+          "id": "dur_c",
+          "x": 9.0,
+          "y": 9.4,
+          "h": 9,
+          "sprite": "assets/items/cap_capsule.png",
+          "name": "КАПСУЛА",
+          "bill": 700,
+          "trigger": "Дурман — это когда не чувствуешь, где ты. Зато чувствуешь, сколько ты должен."
+        },
+        {
+          "id": "dur_p",
+          "x": 11.6,
+          "y": 8.8,
+          "h": 13,
+          "sprite": "assets/items/cap_pillow.png",
+          "name": "ПОДУШКА",
+          "bill": 500,
+          "trigger": "Ложись. Я разбужу, когда ты перестанешь считать."
+        },
+        {
+          "id": "dur_i",
+          "x": 7.0,
+          "y": 9.0,
+          "h": 11,
+          "sprite": "assets/items/obj_ivstand.png",
+          "name": "СТОЙКА",
+          "bill": 2400,
+          "trigger": "Стойка капельницы. Я поставлю. Ты не заметишь, в какой момент уснёшь."
+        }
+      ],
+      "placeholder": false,
       "bg": "assets/pan/room_sepia.jpg"
     },
     {
@@ -684,7 +819,13 @@
         [
           0.0,
           0,
-          17.2,
+          6.8,
+          1.1
+        ],
+        [
+          9.2,
+          0,
+          8.0,
           1.1
         ],
         [
@@ -719,6 +860,14 @@
           "to": "corridor",
           "label": "в коридор",
           "side": "top"
+        },
+        {
+          "x": 8.0,
+          "y": 0.5,
+          "to": "ward_vec_n",
+          "label": "глубже",
+          "nested": true,
+          "side": "top"
         }
       ],
       "items": [
@@ -747,7 +896,13 @@
         [
           0.0,
           0,
-          22.0,
+          6.8,
+          1.1
+        ],
+        [
+          9.2,
+          0,
+          12.8,
           1.1
         ],
         [
@@ -782,6 +937,14 @@
           "to": "corridor",
           "label": "в коридор",
           "side": "bottom"
+        },
+        {
+          "x": 8.0,
+          "y": 0.5,
+          "to": "char_per_n",
+          "label": "глубже",
+          "nested": true,
+          "side": "top"
         }
       ],
       "items": [
@@ -907,7 +1070,13 @@
         [
           0.0,
           0,
-          17.2,
+          6.8,
+          1.1
+        ],
+        [
+          9.2,
+          0,
+          8.0,
           1.1
         ],
         [
@@ -941,6 +1110,14 @@
           "y": 0.5,
           "to": "corridor",
           "label": "в коридор",
+          "side": "top"
+        },
+        {
+          "x": 8.0,
+          "y": 0.5,
+          "to": "char_peli_n",
+          "label": "глубже",
+          "nested": true,
           "side": "top"
         }
       ],
@@ -1188,6 +1365,334 @@
       ],
       "items": [],
       "placeholder": false
+    },
+    {
+      "id": "ward_dem_n",
+      "name": "ПАЛАТА ДЕМИДРОЛА · ГЛУБЖЕ",
+      "kind": "theme-nested",
+      "pal": "mint",
+      "parent": "ward_dem",
+      "w": 20,
+      "h": 11,
+      "bg": "assets/pan/ward_one.jpg",
+      "walls": [
+        [
+          0.0,
+          0,
+          20.0,
+          1.1
+        ],
+        [
+          0.0,
+          9.9,
+          20.0,
+          1.1
+        ],
+        [
+          0,
+          0.0,
+          1.1,
+          11.0
+        ],
+        [
+          18.9,
+          0.0,
+          1.1,
+          11.0
+        ]
+      ],
+      "doors": [],
+      "items": [],
+      "decor": [],
+      "anim": [],
+      "placeholder": true
+    },
+    {
+      "id": "ward_sko_n",
+      "name": "ПАЛАТА СКОПОЛАМИНА · ГЛУБЖЕ",
+      "kind": "theme-nested",
+      "pal": "petrol",
+      "parent": "ward_sko",
+      "w": 20,
+      "h": 11,
+      "bg": "assets/pan/ward_two.jpg",
+      "walls": [
+        [
+          0.0,
+          0,
+          20.0,
+          1.1
+        ],
+        [
+          0.0,
+          9.9,
+          20.0,
+          1.1
+        ],
+        [
+          0,
+          0.0,
+          1.1,
+          11.0
+        ],
+        [
+          18.9,
+          0.0,
+          1.1,
+          11.0
+        ]
+      ],
+      "doors": [],
+      "items": [],
+      "decor": [],
+      "anim": [],
+      "placeholder": true
+    },
+    {
+      "id": "ward_amb_n",
+      "name": "ПАЛАТА АМБИЕНА · ГЛУБЖЕ",
+      "kind": "theme-nested",
+      "pal": "sepia",
+      "parent": "ward_amb",
+      "w": 16,
+      "h": 10,
+      "bg": "assets/pan/amb_room.jpg",
+      "walls": [
+        [
+          0.0,
+          0,
+          16.0,
+          1.1
+        ],
+        [
+          0.0,
+          8.9,
+          16.0,
+          1.1
+        ],
+        [
+          0,
+          0.0,
+          1.1,
+          10.0
+        ],
+        [
+          14.9,
+          0.0,
+          1.1,
+          10.0
+        ]
+      ],
+      "doors": [],
+      "items": [],
+      "decor": [],
+      "anim": [],
+      "placeholder": true
+    },
+    {
+      "id": "ward_tie_n",
+      "name": "ПАЛАТА С ПОДВЯЗКАМИ · ГЛУБЖЕ",
+      "kind": "theme-nested",
+      "pal": "sepia",
+      "parent": "ward_tie",
+      "w": 16,
+      "h": 10,
+      "bg": "assets/pan/room_sepia.jpg",
+      "walls": [
+        [
+          0.0,
+          0,
+          16.0,
+          1.1
+        ],
+        [
+          0.0,
+          8.9,
+          16.0,
+          1.1
+        ],
+        [
+          0,
+          0.0,
+          1.1,
+          10.0
+        ],
+        [
+          14.9,
+          0.0,
+          1.1,
+          10.0
+        ]
+      ],
+      "doors": [],
+      "items": [],
+      "decor": [],
+      "anim": [],
+      "placeholder": true
+    },
+    {
+      "id": "ward_dur_n",
+      "name": "ПАЛАТА ДУРМАНА · ГЛУБЖЕ",
+      "kind": "theme-nested",
+      "pal": "sepia",
+      "parent": "ward_dur",
+      "w": 16,
+      "h": 10,
+      "bg": "assets/pan/room_sepia.jpg",
+      "walls": [
+        [
+          0.0,
+          0,
+          16.0,
+          1.1
+        ],
+        [
+          0.0,
+          8.9,
+          16.0,
+          1.1
+        ],
+        [
+          0,
+          0.0,
+          1.1,
+          10.0
+        ],
+        [
+          14.9,
+          0.0,
+          1.1,
+          10.0
+        ]
+      ],
+      "doors": [],
+      "items": [],
+      "decor": [],
+      "anim": [],
+      "placeholder": true
+    },
+    {
+      "id": "ward_vec_n",
+      "name": "ПАЛАТА ВЕКТОРОВ · ГЛУБЖЕ",
+      "kind": "theme-nested",
+      "pal": "steel",
+      "parent": "ward_vec",
+      "w": 18,
+      "h": 11,
+      "bg": "assets/pan/room_steel.jpg",
+      "walls": [
+        [
+          0.0,
+          0,
+          18.0,
+          1.1
+        ],
+        [
+          0.0,
+          9.9,
+          18.0,
+          1.1
+        ],
+        [
+          0,
+          0.0,
+          1.1,
+          11.0
+        ],
+        [
+          16.9,
+          0.0,
+          1.1,
+          11.0
+        ]
+      ],
+      "doors": [],
+      "items": [],
+      "decor": [],
+      "anim": [],
+      "placeholder": true
+    },
+    {
+      "id": "char_per_n",
+      "name": "ПАЛАТА ПЕРЕДОЗОЛОГА · ГЛУБЖЕ",
+      "kind": "theme-nested",
+      "pal": "steel",
+      "parent": "char_per",
+      "w": 18,
+      "h": 11,
+      "bg": "assets/pan/room_steel.jpg",
+      "walls": [
+        [
+          0.0,
+          0,
+          18.0,
+          1.1
+        ],
+        [
+          0.0,
+          9.9,
+          18.0,
+          1.1
+        ],
+        [
+          0,
+          0.0,
+          1.1,
+          11.0
+        ],
+        [
+          16.9,
+          0.0,
+          1.1,
+          11.0
+        ]
+      ],
+      "doors": [],
+      "items": [],
+      "decor": [],
+      "anim": [],
+      "placeholder": true
+    },
+    {
+      "id": "char_peli_n",
+      "name": "ПАЛАТА ПЕЛИ КУКЛЫ · ГЛУБЖЕ",
+      "kind": "theme-nested",
+      "pal": "mint",
+      "parent": "char_peli",
+      "w": 18,
+      "h": 11,
+      "bg": "assets/pan/room_mint.jpg",
+      "walls": [
+        [
+          0.0,
+          0,
+          18.0,
+          1.1
+        ],
+        [
+          0.0,
+          9.9,
+          18.0,
+          1.1
+        ],
+        [
+          0,
+          0.0,
+          1.1,
+          11.0
+        ],
+        [
+          16.9,
+          0.0,
+          1.1,
+          11.0
+        ]
+      ],
+      "doors": [],
+      "items": [],
+      "decor": [],
+      "anim": [],
+      "placeholder": true
     }
   ]
 }

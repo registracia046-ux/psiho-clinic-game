@@ -113,6 +113,35 @@ ITEMS = {
     ],
 }
 
+# ── ЭТАП 5: «палата в палате» — пустая близнецовая палата той же темы.
+#    Наполнение не придумываем: близнец — чистая оболочка, ждёт идей заказчика.
+NESTABLE = ["ward_dem", "ward_sko", "ward_amb", "ward_tie", "ward_dur",
+            "ward_vec", "char_per", "char_peli"]
+have = {r["id"] for r in d["rooms"]}
+for rid in NESTABLE:
+    twin = rid + "_n"
+    if twin in have:
+        continue
+    src = next(r for r in d["rooms"] if r["id"] == rid)
+    d["rooms"].append({
+        "id": twin,
+        "name": src["name"] + " · ГЛУБЖЕ",
+        "kind": "theme-nested",
+        "pal": src["pal"],
+        "parent": rid,
+        "w": max(14, src["w"] - 4),
+        "h": max(10, src["h"] - 2),
+        "bg": src.get("bg"),
+        "walls": [], "doors": [], "items": [],
+        "decor": [], "anim": [],
+        "placeholder": True
+    })
+    for r in d["rooms"]:
+        if r["id"] == rid:
+            r["doors"].append({"x": 8.0, "y": 0.0, "to": twin,
+                               "label": "глубже", "nested": True})
+            break
+
 for room in d["rooms"]:
     rid = room["id"]
     sides = SIDE.get(rid, {})
